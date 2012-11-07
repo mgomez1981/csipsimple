@@ -1,0 +1,9 @@
+[submodule "jni/codec2/sources"]
+	path = jni/codec2/sources
+	url = ../codec2
+[submodule "jni/pjsip/sources"]
+	path = jni/pjsip/sources
+	url = ../pjsip
+[submodule "jni/third_party/libyuv"]
+	path = jni/third_party/libyuv
+	url = ../libyuv
