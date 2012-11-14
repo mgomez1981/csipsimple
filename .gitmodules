@@ -7,3 +7,6 @@
 [submodule "jni/third_party/libyuv"]
 	path = jni/third_party/libyuv
 	url = ../libyuv
+[submodule "jni/opus/sources"]
+	path = jni/opus/sources
+	url = git://git.xiph.org/opus.git
