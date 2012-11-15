@@ -2,7 +2,7 @@
 external_repos := silk opus zrtp4pj openssl libvpx
 external_sources := $(foreach repos, $(external_repos),jni/$(repos)/sources)
 
-to_patch := webrtc ffmpeg silk libvpx
+to_patch := silk libvpx
 to_patch_files := $(foreach proj, $(to_patch),jni/$(proj)/.patched_sources)
 
 all : libraries
