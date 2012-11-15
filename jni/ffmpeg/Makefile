@@ -43,16 +43,6 @@ x264_src/configure :
 	cd x264_src; \
 	$(call git_update, $(x264_version))
 
-patch : .patched_sources
-	@# Patch done
-
-.patched_sources : $(patches_files) x264_src/configure ffmpeg_src/VERSION
-	@quilt push -a && \
-	touch .patched_sources
-
-unpatch :
-	@if [ -f .patched_sources ]; then quilt pop -af; rm .patched_sources; fi;
-
 clean :
 	@if [ -f ffmpeg_src/config.mak ]; then $(MAKE) -C ffmpeg_src clean; fi;
 	@if [ -f x264_src/config.mak ]; then $(MAKE) -C x264_src clean; fi;
