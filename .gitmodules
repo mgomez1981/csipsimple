@@ -16,3 +16,6 @@
 [submodule "jni/ffmpeg/x264_src"]
 	path = jni/ffmpeg/x264_src
 	url = git://git.videolan.org/x264.git
+[submodule "jni/webrtc/webrtc_mirror"]
+	path = jni/webrtc/webrtc_mirror
+	url = git@github.com:serj/webrtc.git
