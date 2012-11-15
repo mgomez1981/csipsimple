@@ -2,8 +2,8 @@ JNI_DIR := $(call my-dir)
 
 # Create a Local.mk file if you need to customize values below
 
-APP_OPTIM        := release
-APP_ABI := armeabi armeabi-v7a x86 mips
+APP_OPTIM        := debug
+APP_ABI := armeabi armeabi-v7a
 
 MY_USE_CSIPSIMPLE := 1
 
