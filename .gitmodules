@@ -19,3 +19,6 @@
 [submodule "jni/webrtc/webrtc_mirror"]
 	path = jni/webrtc/webrtc_mirror
 	url = git@github.com:serj/webrtc.git
+[submodule "jni/libvpx/sources"]
+	path = jni/libvpx/sources
+	url = git@github.com:serj/libvpx.git
