@@ -1,9 +1,6 @@
 [submodule "jni/codec2/sources"]
 	path = jni/codec2/sources
 	url = ../codec2
-[submodule "jni/pjsip/sources"]
-	path = jni/pjsip/sources
-	url = ../pjsip
 [submodule "jni/third_party/libyuv"]
 	path = jni/third_party/libyuv
 	url = ../libyuv
@@ -25,3 +22,6 @@
 [submodule "jni/ffmpeg/ffmpeg_src"]
 	path = jni/ffmpeg/ffmpeg_src
 	url = git://git.videolan.org/ffmpeg.git
+[submodule "jni/pjsip/sources"]
+	path = jni/pjsip/sources
+	url = git@github.com:serj/pjsip.git
