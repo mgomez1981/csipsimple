@@ -53,11 +53,11 @@ patch : .patched_sources
 	@# Patch done
 
 .patched_sources : $(patches_files)
-	@quilt push -a && \
-	touch .patched_sources
+	#@quilt push -a && \
+	#touch .patched_sources
 
 unpatch :
-	@if [ -f .patched_sources ]; then quilt pop -af; rm .patched_sources; fi;
+	#@if [ -f .patched_sources ]; then quilt pop -af; rm .patched_sources; fi;
 	
 clean :
 	@rm -rf $(BUILD_DIRECTORY)
