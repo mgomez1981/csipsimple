@@ -10,9 +10,6 @@
 [submodule "jni/opus/sources"]
 	path = jni/opus/sources
 	url = git://git.xiph.org/opus.git
-[submodule "jni/ffmpeg/ffmpeg_src"]
-	path = jni/ffmpeg/ffmpeg_src
-	url = git://git.videolan.org/ffmpeg.git
 [submodule "jni/ffmpeg/x264_src"]
 	path = jni/ffmpeg/x264_src
 	url = git://git.videolan.org/x264.git
@@ -22,3 +19,9 @@
 [submodule "jni/libvpx/sources"]
 	path = jni/libvpx/sources
 	url = git@github.com:serj/libvpx.git
+[submodule "jni/openssl/sources"]
+	path = jni/openssl/sources
+	url = git://github.com/guardianproject/openssl-android.git
+[submodule "jni/ffmpeg/ffmpeg_src"]
+	path = jni/ffmpeg/ffmpeg_src
+	url = git://git.videolan.org/ffmpeg.git
