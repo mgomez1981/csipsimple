@@ -529,6 +529,8 @@ struct pjsip_tls_setting
      * Password to open private key.
      */
     pj_str_t	password;
+    pj_str_t	psk;
+    pj_str_t	psk_identity;
 
     /**
      * TLS protocol method from #pjsip_ssl_method, which can be:
