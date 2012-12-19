@@ -104,9 +104,8 @@ public class PjSipService {
 
     private boolean hasSipStack = false;
     private boolean sipStackIsCorrupted = false;
-    private Integer localUdpAccPjId, localUdp6AccPjId, 
-        localTcpAccPjId, localTcp6AccPjId, 
-        localTlsAccPjId, localTls6AccPjId;
+    private Integer localUdpAccPjId, localUdp6AccPjId, localTcpAccPjId, localTcp6AccPjId,
+        localTlsAccPjId, localTls6AccPjId, localPgpAccPjId;
     public PreferencesProviderWrapper prefsWrapper;
     //private PjStreamDialtoneGenerator dialtoneGenerator;
 
@@ -685,9 +684,28 @@ public class PjSipService {
                 tlsSetting.setPassword(pjsua.pj_str_copy(tlsPwd));
             }
 
+            String tlsPSK = prefsWrapper.getPreferenceStringValue(SipConfigManager.TLS_PSK);
+            if (!TextUtils.isEmpty(tlsPSK)) {
+                tlsSetting.setPsk(pjsua.pj_str_copy(tlsPSK));
+            }
+
+            String trustedPublicKey = SipConfigManager.TRUSTED_PUBLIC_KEYS[0];
+            if (!TextUtils.isEmpty(trustedPublicKey)) {
+                tlsSetting.setTrusted_public_key(pjsua.pj_str_copy(trustedPublicKey));
+            }
+
+            pj_str_t trustedPublicKeys = pjsua.new_pj_str_tArray(SipConfigManager.TRUSTED_PUBLIC_KEYS.length);
+            Log.e(THIS_FILE, new Integer(SipConfigManager.TRUSTED_PUBLIC_KEYS.length).toString());
+            for (int i = 0; i < SipConfigManager.TRUSTED_PUBLIC_KEYS.length; i++) {
+                pjsua.pj_str_tArray_setitem(trustedPublicKeys, i, pjsua.pj_str_copy(SipConfigManager.TRUSTED_PUBLIC_KEYS[i]));
+            }
+            tlsSetting.setTrusted_public_keys(trustedPublicKeys);
+            tlsSetting.setTrusted_public_keys_size(SipConfigManager.TRUSTED_PUBLIC_KEYS.length);
+
             boolean checkClient = prefsWrapper
                     .getPreferenceBooleanValue(SipConfigManager.TLS_VERIFY_CLIENT);
             tlsSetting.setVerify_client(checkClient ? 1 : 0);
+            tlsSetting.setRequire_client_cert(checkClient ? 1 : 0);
 
             tlsSetting.setMethod(prefsWrapper.getTLSMethod());
             boolean checkServer = prefsWrapper

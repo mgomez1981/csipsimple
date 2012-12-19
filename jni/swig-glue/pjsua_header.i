@@ -1,8 +1,7 @@
-
 /* File : pjsua.i */
 %module (directors="1") pjsua
 
-
+%include carrays.i
 // Do not generate the default proxy constructor or destructor
 %nodefaultctor pjmedia_port;
 %nodefaultdtor pjmedia_port;
@@ -85,9 +84,13 @@ pj_str_t pj_str_copy(const char *str) {
 	return pj_str(copy);
 }
 
+
 %}
 /* turn on director wrapping Callback */
 %feature("director") Callback;
+
+%array_functions(pj_str_t, pj_str_tArray);
+
 
 %constant struct pjsua_callback* WRAPPER_CALLBACK_STRUCT = &wrapper_callback_struct;
 %include pj_callback.h

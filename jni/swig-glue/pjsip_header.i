@@ -532,6 +532,11 @@ struct pjsip_tls_setting
     pj_str_t	psk;
     pj_str_t	psk_identity;
 
+    pj_str_t	trusted_public_key;
+
+    pj_str_t	*trusted_public_keys;
+    int	trusted_public_keys_size;
+
     /**
      * TLS protocol method from #pjsip_ssl_method, which can be:
      *	- PJSIP_SSL_UNSPECIFIED_METHOD(0): default (which will use 
