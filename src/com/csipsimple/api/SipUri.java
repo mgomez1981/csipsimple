@@ -199,7 +199,7 @@ public final class SipUri {
         }
         if(isPhoneNumber(uriInfos.userName)) {
            return uriInfos.userName; 
-        }else if(isPhoneNumber(uriInfos.displayName)) {
+        } else if(isPhoneNumber(uriInfos.displayName)) {
             return uriInfos.displayName;
         }
         return null;
