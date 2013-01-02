@@ -1,6 +1,4 @@
 
-
-
 // From pjlib/include/pj/types.h:63
 typedef int               pj_status_t;
 // From pjlib/include/pj/types.h:66
@@ -533,6 +531,7 @@ struct pjsip_tls_setting
     pj_str_t	psk_identity;
 
     pj_str_t	trusted_public_key;
+    int	trusted_public_key_type;
 
     pj_str_t	*trusted_public_keys;
     int	trusted_public_keys_size;

@@ -836,11 +836,17 @@ public class SipConfigManager {
     
     // SECURE
     /**
-     * Enable TLS transport.
+     * enable tls transport.
      * 
-     * @see #setPreferenceBooleanValue(Context, String, boolean)
+     * @see #setpreferencebooleanvalue(context, string, boolean)
      */
     public static final String ENABLE_TLS = "enable_tls";
+    /**
+     * enable PGP transport.
+     * 
+     * @see #setpreferencebooleanvalue(context, string, boolean)
+     */
+    public static final String ENABLE_PGP = "enable_pgp";
     /**
      * Local port to bind to for TLS transport.<br/>
      * This is the listen port of the application. 0 means automatic
@@ -848,6 +854,13 @@ public class SipConfigManager {
      * @see #setPreferenceIntegerValue(Context, String, Integer)
      */
     public static final String TLS_TRANSPORT_PORT = "network_tls_transport_port";
+    /**
+     * Local port to bind to for PGP transport.<br/>
+     * This is the listen port of the application. 0 means automatic
+     * 
+     * @see #setPreferenceIntegerValue(Context, String, Integer)
+     */
+    public static final String PGP_TRANSPORT_PORT = "network_pgp_transport_port";
     /**
      * Optionally specify the server name instance to connect to when making outgoing TLS connection. <br/>
      * This setting is useful when the server is hosting multiple domains for
@@ -904,8 +917,6 @@ public class SipConfigManager {
      * @see #setPreferenceBooleanValue(Context, String, boolean)
      */
     public static final String TLS_PSK = "psk";
-
-    public static final String[] TRUSTED_PUBLIC_KEYS =  new String[] {"cdabbbf6fcccdf94b31cec92566db0aa1b94fdfaf0b4f243f7da98d668e05ca1a4dd81202f48524f31e6aac38b29e95d6d980674ea8ed0970b85fcc62db26ab667436f53a0936036c489d6dd8db41484791d1285e765dcd2be6d4060997a59a58581d8c83c4e29c4b0a5aaacedbdb3ef5a131736bb8f5e6e0a7d39f8f1109fe895ef51541d9216ea9d2fed90171b43c19d6c8af3b169edfa894f22d564edc1a235c8fd065032e0fb0e66440950e146a1b946dfe70ad9fe7daf42193df1cb48fe4635e3d68d662981b081cef6aee4acd86bdb5b8f40f7d79fe5920e912635dc8dd137df0a4d65b9ce9c28f675be1cbc0cd5a66d83930d80d996d6d1f964e12fbf213ee597ec9cb7435f2ebef2954b96d02cd0a3bee90e768671be5456925820030037d2d5b511751771ed684898191f81107210a7ead594a041ef2c23350afb02056416400e4c51a1c21d39d817d1436337558f5ebea67c4625cbad6d30340f33f9529639fb582d6b1ea622ea41277c8d71d3f819b8d66fbbea532d8aa0776df1cd196cd1b150516127e01db79ae5912484fef6729a68e19edfb0020df73a8c1388b05d934b01ab299f00f2c073fd61241373714cd19310b6209afeab7fc38966554d2b997181ebb5d737d7288c31d01693e3bf1c9b6debec4484a868f2646da3271fb9ad09bd821811b08a2d8bf45174b61dca21f09d17d1ecf122791c449551", "dffcc448dbd11d8270f593c3f43f2738e49306a3a75715a2c9602d3b8a0538a87cf4012512d3ba207a7e3b481e1e1b870c84c1509db3c0c6b7f4ea043cae23a017407d3d3047d2ed1f44def7a2eacd646465694dc825323bc42c6c4112d8492815573f2a457fcd19b20041a0d202408b91d70ae7200458f90d787131e90cf220ccb03f1d2e5ce1fc0dd1c21904098dba106a3c2ff566f064c1bd7c2fad78b930aeda8a609e452d0bda4f6b0d99aa0fbf952fbce3dabc57ab8113be530c997e6e52b1575b3940598f4d190f3a6c0b21b4c883b0bba890075b06d45c2c1d75e54444a461fab17ed1efbbdb11cade24cb01f07f1cf67199973d8cad1e870d00174b"};
 
     public static final String TLS_VERIFY_SERVER = "tls_verify_server";
     /**
