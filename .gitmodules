@@ -25,3 +25,6 @@
 [submodule "jni/codec2/sources"]
 	path = jni/codec2/sources
 	url = git@github.com:serj/codec2.git
+[submodule "jni/zrtp4pj/sources"]
+	path = jni/zrtp4pj/sources
+	url = git://github.com/r3gis3r/ZRTP4PJ.git
