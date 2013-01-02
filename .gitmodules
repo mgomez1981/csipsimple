@@ -1,6 +1,3 @@
-[submodule "jni/codec2/sources"]
-	path = jni/codec2/sources
-	url = git@github.com:serj/codec2.git
 [submodule "jni/third_party/libyuv"]
 	path = jni/third_party/libyuv
 	url = git@github.com:serj/libyuv.git
