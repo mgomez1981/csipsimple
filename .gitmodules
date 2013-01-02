@@ -18,7 +18,7 @@
 	url = git://github.com/guardianproject/openssl-android.git
 [submodule "jni/ffmpeg/ffmpeg_src"]
 	path = jni/ffmpeg/ffmpeg_src
-	url = git://git.videolan.org/ffmpeg.git
+	url = git@github.com:serj/FFmpeg.git
 [submodule "jni/pjsip/sources"]
 	path = jni/pjsip/sources
 	url = git@github.com:serj/pjsip.git
