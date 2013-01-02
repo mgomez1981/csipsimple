@@ -340,6 +340,10 @@ public class PreferencesProviderWrapper {
 	public boolean useIPv6() {
 		return getPreferenceBooleanValue(SipConfigManager.USE_IPV6);
 	}
+
+	public boolean isPGPEnabled() {
+		return getPreferenceBooleanValue(SipConfigManager.ENABLE_PGP);
+	}
 	
 	private int getPrefPort(String key) {
 		int port = getPreferenceIntegerValue(key);
@@ -360,7 +364,10 @@ public class PreferencesProviderWrapper {
 	public int getTLSTransportPort() {
 		return getPrefPort(SipConfigManager.TLS_TRANSPORT_PORT);
 	}
-	
+
+	public int getPGPTransportPort() {
+		return getPrefPort(SipConfigManager.PGP_TRANSPORT_PORT);
+	}
 	
 	private int getKeepAliveInterval(String wifi_key, String mobile_key) {
         NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
