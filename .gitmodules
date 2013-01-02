@@ -1,9 +1,9 @@
 [submodule "jni/codec2/sources"]
 	path = jni/codec2/sources
-	url = ../codec2
+	url = git@github.com:serj/codec2.git
 [submodule "jni/third_party/libyuv"]
 	path = jni/third_party/libyuv
-	url = ../libyuv
+	url = git@github.com:serj/libyuv.git
 [submodule "jni/opus/sources"]
 	path = jni/opus/sources
 	url = git://git.xiph.org/opus.git
