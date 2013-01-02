@@ -27,4 +27,4 @@
 	url = git@github.com:serj/codec2.git
 [submodule "jni/zrtp4pj/sources"]
 	path = jni/zrtp4pj/sources
-	url = git@github.com/serj/ZRTP4PJ.git
+	url = git@github.com:serj/ZRTP4PJ.git
