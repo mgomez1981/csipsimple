@@ -102,6 +102,7 @@
 
     <application
         android:allowBackup="false"
+        android:debuggable="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher_nightly"
         android:label="@string/app_name" >
