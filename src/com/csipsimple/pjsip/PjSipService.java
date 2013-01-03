@@ -97,12 +97,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PjSipService {
-    public static final int PUBKEY_TYPE_RSA = 1;
-    public static final int PUBKEY_TYPE_DSA = 2;
-
     public static final String TRUSTED_PUBLIC_KEY ="cdabbbf6fcccdf94b31cec92566db0aa1b94fdfaf0b4f243f7da98d668e05ca1a4dd81202f48524f31e6aac38b29e95d6d980674ea8ed0970b85fcc62db26ab667436f53a0936036c489d6dd8db41484791d1285e765dcd2be6d4060997a59a58581d8c83c4e29c4b0a5aaacedbdb3ef5a131736bb8f5e6e0a7d39f8f1109fe895ef51541d9216ea9d2fed90171b43c19d6c8af3b169edfa894f22d564edc1a235c8fd065032e0fb0e66440950e146a1b946dfe70ad9fe7daf42193df1cb48fe4635e3d68d662981b081cef6aee4acd86bdb5b8f40f7d79fe5920e912635dc8dd137df0a4d65b9ce9c28f675be1cbc0cd5a66d83930d80d996d6d1f964e12fbf213ee597ec9cb7435f2ebef2954b96d02cd0a3bee90e768671be5456925820030037d2d5b511751771ed684898191f81107210a7ead594a041ef2c23350afb02056416400e4c51a1c21d39d817d1436337558f5ebea67c4625cbad6d30340f33f9529639fb582d6b1ea622ea41277c8d71d3f819b8d66fbbea532d8aa0776df1cd196cd1b150516127e01db79ae5912484fef6729a68e19edfb0020df73a8c1388b05d934b01ab299f00f2c073fd61241373714cd19310b6209afeab7fc38966554d2b997181ebb5d737d7288c31d01693e3bf1c9b6debec4484a868f2646da3271fb9ad09bd821811b08a2d8bf45174b61dca21f09d17d1ecf122791c449551";
-    public static final int TRUSTED_PUBLIC_KEY_TYPE = PUBKEY_TYPE_RSA;
-
 
     private static final String THIS_FILE = "PjService";
     private static int DTMF_TONE_PAUSE_LENGTH = 300;
@@ -574,7 +569,7 @@ public class PjSipService {
  *                    }
  *                }
  */
-                addLocalService();
+                //addPGPLocalService();
             }
 
             // Initialization is done, now start pjsua
@@ -602,22 +597,17 @@ public class PjSipService {
     }
 
     // Add transports
-    public boolean addLocalService() throws SameThreadException {
+    public boolean addLocalPGPService(int tlsPort, int keyType, String publicKeyHex, String x509CertFile, String x509PrivKeyFile)
+            throws SameThreadException {
         Log.e(THIS_FILE, "------>addLocalService()");
 
-        // PGP
-        if (prefsWrapper.isPGPEnabled()) {
-            int tlsPort = prefsWrapper.getPGPTransportPort();
-            Log.e(THIS_FILE, "________________________________________________");
-            Log.e(THIS_FILE, new Integer(tlsPort).toString());
+        localPgpAccPjId = createLocalPGPTransportAndAccount(
+                pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
+                tlsPort, keyType, publicKeyHex, x509CertFile, x509PrivKeyFile);
 
-            localPgpAccPjId = createLocalTransportAndAccount(
-                    pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
-                    tlsPort);
-            if (localPgpAccPjId == null) {
-                cleanPjsua();
-                return false;
-            }
+        if (localPgpAccPjId == null) {
+            cleanPjsua();
+            return false;
         }
 
         return true;
@@ -729,10 +719,12 @@ public class PjSipService {
                 tlsSetting.setPsk(pjsua.pj_str_copy(tlsPSK));
             }
 
-            // TODO: Get from service
-            tlsSetting.setTrusted_public_key(pjsua.pj_str_copy(TRUSTED_PUBLIC_KEY));
-            tlsSetting.setTrusted_public_key_type(TRUSTED_PUBLIC_KEY_TYPE);
-
+/*
+ *            // TODO: Get from service
+ *            tlsSetting.setTrusted_public_key(pjsua.pj_str_copy(TRUSTED_PUBLIC_KEY));
+ *            tlsSetting.setTrusted_public_key_type(TRUSTED_PUBLIC_KEY_TYPE);
+ *
+ */
 /*
  *            pj_str_t trustedPublicKeys = pjsua.new_pj_str_tArray(SipConfigManager.TRUSTED_PUBLIC_KEYS.length);
  *            Log.e(THIS_FILE, new Integer(SipConfigManager.TRUSTED_PUBLIC_KEYS.length).toString());
@@ -794,10 +786,53 @@ public class PjSipService {
         return createLocalAccount(transportId);
     }
 
-    private Integer createLocalPGPTransportAndAccount(pjsip_transport_type_e type, int port, String userid)
+
+    private Integer createLocalPGPTransportAndAccount(pjsip_transport_type_e type, int port, int keyType, String publicKeyHex, String x509CertFile, String x509PrivKeyFile)
             throws SameThreadException {
-        Integer transportId = createTransport(type, port);
-        return createLocalAccount(transportId);
+
+        Log.i(THIS_FILE, ">> createLocalPGPTransportAndAccount <<");
+
+        pjsua_transport_config cfg = new pjsua_transport_config();
+        int[] tId = new int[1];
+        int status;
+        pjsua.transport_config_default(cfg);
+        cfg.setPort(port);
+
+        pjsip_tls_setting tlsSetting = cfg.getTls_setting();
+
+        tlsSetting.setCert_file(pjsua.pj_str_copy(x509CertFile));
+        tlsSetting.setPrivkey_file(pjsua.pj_str_copy(x509PrivKeyFile));
+
+        tlsSetting.setTrusted_public_key(pjsua.pj_str_copy(publicKeyHex));
+        tlsSetting.setTrusted_public_key_type(keyType);
+
+        tlsSetting.setVerify_client(1);
+        tlsSetting.setRequire_client_cert(1);
+        tlsSetting.setVerify_server(1);
+
+        cfg.setTls_setting(tlsSetting);
+
+        if (prefsWrapper.getPreferenceBooleanValue(SipConfigManager.ENABLE_QOS)) {
+            Log.d(THIS_FILE, "Activate qos for this transport");
+            pj_qos_params qosParam = cfg.getQos_params();
+            qosParam.setDscp_val((short) prefsWrapper.getDSCPVal());
+            qosParam.setFlags((short) 1); // DSCP
+            cfg.setQos_params(qosParam);
+        }
+
+        status = pjsua.transport_create(type, cfg, tId);
+        if (status != pjsuaConstants.PJ_SUCCESS) {
+            String errorMsg = pjStrToString(pjsua.get_error_message(status));
+            String msg = "Fail to create transport " + errorMsg + " (" + status + ")";
+            Log.e(THIS_FILE, msg);
+            if (status == 120098) { /* Already binded */
+                msg = service.getString(R.string.another_application_use_sip_port);
+            }
+            service.notifyUserOfMessage(msg);
+            return null;
+        }
+
+        return createLocalAccount(tId[0]);
     }
 
     public boolean addAccount(SipProfile profile) throws SameThreadException {
