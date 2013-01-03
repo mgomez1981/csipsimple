@@ -1,6 +1,6 @@
 [submodule "jni/third_party/libyuv"]
 	path = jni/third_party/libyuv
-	url = git@github.com:serj/libyuv.git
+	url = git@github.com:cryptocall/libyuv.git
 [submodule "jni/opus/sources"]
 	path = jni/opus/sources
 	url = git://git.xiph.org/opus.git
@@ -9,22 +9,22 @@
 	url = git://git.videolan.org/x264.git
 [submodule "jni/webrtc/webrtc_mirror"]
 	path = jni/webrtc/webrtc_mirror
-	url = git@github.com:serj/webrtc.git
+	url = git@github.com:cryptocall/webrtc.git
 [submodule "jni/libvpx/sources"]
 	path = jni/libvpx/sources
-	url = git@github.com:serj/libvpx.git
+	url = git@github.com:cryptocall/libvpx.git
 [submodule "jni/openssl/sources"]
 	path = jni/openssl/sources
 	url = git://github.com/guardianproject/openssl-android.git
 [submodule "jni/ffmpeg/ffmpeg_src"]
 	path = jni/ffmpeg/ffmpeg_src
-	url = git@github.com:serj/FFmpeg.git
+	url = git@github.com:cryptocall/FFmpeg.git
 [submodule "jni/pjsip/sources"]
 	path = jni/pjsip/sources
-	url = git@github.com:serj/pjsip.git
+	url = git@github.com:cryptocall/pjsip.git
 [submodule "jni/codec2/sources"]
 	path = jni/codec2/sources
-	url = git@github.com:serj/codec2.git
+	url = git@github.com:cryptocall/codec2.git
 [submodule "jni/zrtp4pj/sources"]
 	path = jni/zrtp4pj/sources
-	url = git@github.com:serj/ZRTP4PJ.git
+	url = git@github.com:cryptocall/ZRTP4PJ.git
