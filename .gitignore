@@ -1,5 +1,6 @@
 libs/*
 obj/*
-src/org/pjsip/*
 bin/*
 gen/*
+src/org/pjsip/*
+local.properties

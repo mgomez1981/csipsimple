@@ -701,7 +701,15 @@ public class SipProfile implements Parcelable {
      * Should media use ipv6?
      */
     public static final String FIELD_IPV6_MEDIA_USE = "ipv6_media_use";
-    
+
+
+
+    // OpenSSL Keytype choices
+    public static final int KEY_TYPE_RSA = 1;
+    public static final int KEY_TYPE_DSA = 2;
+    public static final int KEY_TYPE_EC  = 8;
+
+
     /**
      * Simple project to use if you want to list accounts with basic infos on it
      * only.
