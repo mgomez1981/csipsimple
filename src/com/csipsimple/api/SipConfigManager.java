@@ -1200,7 +1200,7 @@ public class SipConfigManager {
      * Authority for preference content provider. <br/>
      * Maybe be changed for forked versions of the app.
      */
-    public static final String AUTHORITY = "com.csipsimple.prefs";
+    public static final String AUTHORITY = "com.csipsimple.prefs.cryptocall";
     private static final String BASE_DIR_TYPE = "vnd.android.cursor.dir/vnd.csipsimple";
     private static final String BASE_ITEM_TYPE = "vnd.android.cursor.item/vnd.csipsimple";
     
