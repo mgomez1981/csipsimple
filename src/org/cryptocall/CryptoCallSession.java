@@ -42,9 +42,11 @@ public class CryptoCallSession implements Parcelable {
 
     public String X509CertFile;
     public String X509PrivKeyFile;
-
+    
+    // OpenSSL Keytype choices
     public static final int KEY_TYPE_RSA = 1;
     public static final int KEY_TYPE_DSA = 2;
+    public static final int KEY_TYPE_EC  = 8;
 
     public CryptoCallSession() {
     }
