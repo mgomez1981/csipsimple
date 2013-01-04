@@ -599,7 +599,7 @@ public class PjSipService {
     // Add transports
     public boolean addLocalPGPService(int tlsPort, int keyType, String publicKeyHex, String x509CertFile, String x509PrivKeyFile)
             throws SameThreadException {
-        Log.e(THIS_FILE, "------>addLocalPGPService()");
+        Log.d(THIS_FILE, "------>addLocalPGPService()");
 
         localPgpAccPjId = createLocalPGPTransportAndAccount(
                 pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
