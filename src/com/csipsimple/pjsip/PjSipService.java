@@ -64,6 +64,7 @@ import com.csipsimple.utils.video.VideoUtilsWrapper.VideoCaptureCapability;
 import com.csipsimple.utils.video.VideoUtilsWrapper.VideoCaptureDeviceInfo;
 import com.csipsimple.wizards.WizardUtils;
 
+import org.cryptocall.CryptoCallSession;
 import org.pjsip.pjsua.csipsimple_config;
 import org.pjsip.pjsua.dynamic_factory;
 import org.pjsip.pjsua.pj_pool_t;
@@ -130,6 +131,18 @@ public class PjSipService {
     private SparseArray<TimerTask> dtmfTasks = new SparseArray<TimerTask>(5);
     private SparseArray<PjStreamDialtoneGenerator> dtmfDialtoneGenerators =
             new SparseArray<PjStreamDialtoneGenerator>(5);
+    
+    // CryptoCall session object, including port, pubKey, X509,...
+    private CryptoCallSession cryptoCallSession;
+    
+
+    public CryptoCallSession getCryptoCallSession() {
+        return cryptoCallSession;
+    }
+
+    public void setCryptoCallSession(CryptoCallSession cryptoCallSession) {
+        this.cryptoCallSession = cryptoCallSession;
+    }
 
 
     // -------

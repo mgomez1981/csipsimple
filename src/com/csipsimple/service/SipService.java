@@ -75,6 +75,7 @@ import com.csipsimple.utils.Log;
 import com.csipsimple.utils.PreferencesProviderWrapper;
 import com.csipsimple.utils.PreferencesWrapper;
 
+import org.cryptocall.CryptoCallSession;
 import org.pjsip.pjsua.pjsua;
 import org.pjsip.pjsua.pjsuaConstants;
 
@@ -98,6 +99,9 @@ public class SipService extends Service {
 	
 	// For video testing -- TODO : remove
 	private static SipService singleton = null;
+	
+	// CryptoCall session object, is later given to PjSipService
+	private CryptoCallSession cryptoCallSession;
 	
 
 	// Implement public interface for the service
@@ -1124,10 +1128,13 @@ public class SipService extends Service {
 		super.onStart(intent, startId);
 		if(intent != null) {
     		Parcelable p = intent.getParcelableExtra(SipManager.EXTRA_OUTGOING_ACTIVITY);
-    		if(p != null) {
-    		    ComponentName outActivity = (ComponentName) p;
-    		    registerForOutgoing(outActivity);
-    		}
+            if(p != null) {
+                ComponentName outActivity = (ComponentName) p;
+                registerForOutgoing(outActivity);
+            }
+            
+    		// also get CryptoCall session object for later use
+    		cryptoCallSession = intent.getParcelableExtra(SipManager.EXTRA_CRYPTOCALL_SESSION);
 		}
 		
         // Check connectivity, else just finish itself
@@ -1263,6 +1270,11 @@ public class SipService extends Service {
 			}
 		}
 		Log.d(THIS_FILE, "Ask pjservice to start itself");
+		
+		// put session into PjSipService
+		Log.d(THIS_FILE, "Put cryptoCallSession into pjService...");
+		Log.d(THIS_FILE, cryptoCallSession.toString());
+		pjService.setCryptoCallSession(cryptoCallSession);
 		
 
         presenceMgr.startMonitoring(this);

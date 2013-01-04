@@ -29,7 +29,6 @@ import android.os.Parcelable;
  * contained in csipsimple library project to be referenced by CryptoCall and csipsimple.
  */
 public class CryptoCallSession implements Parcelable {
-
     public String email;
 
     public String name;
@@ -43,6 +42,9 @@ public class CryptoCallSession implements Parcelable {
 
     public String X509CertFile;
     public String X509PrivKeyFile;
+
+    public static final int KEY_TYPE_RSA = 1;
+    public static final int KEY_TYPE_DSA = 2;
 
     public CryptoCallSession() {
     }
@@ -87,5 +89,21 @@ public class CryptoCallSession implements Parcelable {
     public int describeContents() {
         // Not needed...
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        String output = "CryptoCall session:\n";
+        output += "email: " + email + "\n";
+        output += "name: " + name + "\n";
+        output += "telephoneNumber: " + telephoneNumber + "\n";
+        output += "serverIp: " + serverIp + "\n";
+        output += "serverPort: " + serverPort + "\n";
+        output += "publicKeyType: " + publicKeyType + "\n";
+        output += "publicKeyHex: " + publicKeyHex + "\n";
+        output += "X509CertFile: " + X509CertFile + "\n";
+        output += "X509PrivKeyFile: " + X509PrivKeyFile;
+
+        return output;
     }
 }
