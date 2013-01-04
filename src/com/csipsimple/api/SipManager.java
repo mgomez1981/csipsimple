@@ -314,7 +314,7 @@ public final class SipManager {
     /**
      * Authority for regular database of the application.
      */
-    public static final String AUTHORITY = "com.csipsimple.db";
+    public static final String AUTHORITY = "com.csipsimple.db.cryptocall";
     /**
      * Base content type for csipsimple objects.
      */
@@ -406,6 +406,11 @@ public final class SipManager {
      * @see android.content.ComponentName
      */
     public static final String EXTRA_OUTGOING_ACTIVITY = "outgoing_activity";
+    
+    /**
+     * Extra parameter for parceable CryptoCallSession object
+     */
+    public static final String EXTRA_CRYPTOCALL_SESSION = "cryptocall_session";
     
     /**
      * Extra key to contain an string to path of a file.<br/>
