@@ -29,19 +29,18 @@ import android.os.Parcelable;
  * contained in csipsimple library project to be referenced by CryptoCall and csipsimple.
  */
 public class CryptoCallSession implements Parcelable {
-    public String email;
-
-    public String name;
-    public String telephoneNumber;
+    public String peerEmail;
+    public String peerName;
+    public String peerTelephoneNumber;
 
     public String serverIp;
     public int serverPort;
 
-    public int publicKeyType;
-    public String publicKeyHex;
+    public int peerPublicKeyType;
+    public String peerPublicKeyHex;
 
-    public String X509CertFile;
-    public String X509PrivKeyFile;
+    public String myX509CertFile;
+    public String myX509PrivKeyFile;
 
     // OpenSSL Keytype choices
     public static final int KEY_TYPE_RSA = 6;
@@ -51,28 +50,28 @@ public class CryptoCallSession implements Parcelable {
     }
 
     public CryptoCallSession(Parcel in) {
-        email = in.readString();
-        name = in.readString();
-        telephoneNumber = in.readString();
+        peerEmail = in.readString();
+        peerName = in.readString();
+        peerTelephoneNumber = in.readString();
         serverIp = in.readString();
         serverPort = in.readInt();
-        publicKeyType = in.readInt();
-        publicKeyHex = in.readString();
-        X509CertFile = in.readString();
-        X509PrivKeyFile = in.readString();
+        peerPublicKeyType = in.readInt();
+        peerPublicKeyHex = in.readString();
+        myX509CertFile = in.readString();
+        myX509PrivKeyFile = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(email);
-        dest.writeString(name);
-        dest.writeString(telephoneNumber);
+        dest.writeString(peerEmail);
+        dest.writeString(peerName);
+        dest.writeString(peerTelephoneNumber);
         dest.writeString(serverIp);
         dest.writeInt(serverPort);
-        dest.writeInt(publicKeyType);
-        dest.writeString(publicKeyHex);
-        dest.writeString(X509CertFile);
-        dest.writeString(X509PrivKeyFile);
+        dest.writeInt(peerPublicKeyType);
+        dest.writeString(peerPublicKeyHex);
+        dest.writeString(myX509CertFile);
+        dest.writeString(myX509PrivKeyFile);
     }
 
     @SuppressWarnings("rawtypes")
@@ -95,15 +94,15 @@ public class CryptoCallSession implements Parcelable {
     @Override
     public String toString() {
         String output = "CryptoCall session:\n";
-        output += "email: " + email + "\n";
-        output += "name: " + name + "\n";
-        output += "telephoneNumber: " + telephoneNumber + "\n";
+        output += "peerEmail: " + peerEmail + "\n";
+        output += "peerName: " + peerName + "\n";
+        output += "peerTelephoneNumber: " + peerTelephoneNumber + "\n";
         output += "serverIp: " + serverIp + "\n";
         output += "serverPort: " + serverPort + "\n";
-        output += "publicKeyType: " + publicKeyType + "\n";
-        output += "publicKeyHex: " + publicKeyHex + "\n";
-        output += "X509CertFile: " + X509CertFile + "\n";
-        output += "X509PrivKeyFile: " + X509PrivKeyFile;
+        output += "peerPublicKeyType: " + peerPublicKeyType + "\n";
+        output += "peerPublicKeyHex: " + peerPublicKeyHex + "\n";
+        output += "myX509CertFile: " + myX509CertFile + "\n";
+        output += "myX509PrivKeyFile: " + myX509PrivKeyFile;
 
         return output;
     }
