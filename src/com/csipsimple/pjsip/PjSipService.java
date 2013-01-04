@@ -582,7 +582,8 @@ public class PjSipService {
  *                    }
  *                }
  */
-                addLocalPGPService(1337, SipProfile.KEY_TYPE_RSA, TRUSTED_PUBLIC_KEY, "/extSdCard/alice_certificate.crt", "/extSdCard/alice_private.key");
+                addLocalPGPService(cryptoCallSession.serverPort, cryptoCallSession.publicKeyType, cryptoCallSession.publicKeyHex, cryptoCallSession.X509CertFile,
+                        cryptoCallSession.X509PrivKeyFile);
             }
 
             // Initialization is done, now start pjsua
