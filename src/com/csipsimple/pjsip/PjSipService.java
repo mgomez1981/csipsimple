@@ -818,7 +818,9 @@ public class PjSipService {
         tlsSetting.setPrivkey_file(pjsua.pj_str_copy(x509PrivKeyFile));
 
         tlsSetting.setTrusted_public_key(pjsua.pj_str_copy(publicKeyHex));
+        Log.d(THIS_FILE, new Integer(keyType).toString());
         tlsSetting.setTrusted_public_key_type(keyType);
+        Log.d(THIS_FILE, new Integer(tlsSetting.getTrusted_public_key_type()).toString());
 
         tlsSetting.setVerify_client(1);
         tlsSetting.setRequire_client_cert(1);
