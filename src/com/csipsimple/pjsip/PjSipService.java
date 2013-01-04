@@ -569,7 +569,7 @@ public class PjSipService {
  *                    }
  *                }
  */
-                //addPGPLocalService();
+                addLocalPGPService(1337, SipProfile.KEY_TYPE_RSA, TRUSTED_PUBLIC_KEY, "/extSdCard/alice_certificate.crt", "/extSdCard/alice_private.key");
             }
 
             // Initialization is done, now start pjsua
@@ -599,7 +599,7 @@ public class PjSipService {
     // Add transports
     public boolean addLocalPGPService(int tlsPort, int keyType, String publicKeyHex, String x509CertFile, String x509PrivKeyFile)
             throws SameThreadException {
-        Log.e(THIS_FILE, "------>addLocalService()");
+        Log.e(THIS_FILE, "------>addLocalPGPService()");
 
         localPgpAccPjId = createLocalPGPTransportAndAccount(
                 pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
@@ -790,7 +790,7 @@ public class PjSipService {
     private Integer createLocalPGPTransportAndAccount(pjsip_transport_type_e type, int port, int keyType, String publicKeyHex, String x509CertFile, String x509PrivKeyFile)
             throws SameThreadException {
 
-        Log.i(THIS_FILE, ">> createLocalPGPTransportAndAccount <<");
+        Log.e(THIS_FILE, ">> createLocalPGPTransportAndAccount <<");
 
         pjsua_transport_config cfg = new pjsua_transport_config();
         int[] tId = new int[1];
@@ -808,6 +808,8 @@ public class PjSipService {
 
         tlsSetting.setVerify_client(1);
         tlsSetting.setRequire_client_cert(1);
+
+        tlsSetting.setMethod(1); // 1 for TLSv1
         tlsSetting.setVerify_server(1);
 
         cfg.setTls_setting(tlsSetting);
