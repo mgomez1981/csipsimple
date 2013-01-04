@@ -582,8 +582,8 @@ public class PjSipService {
  *                    }
  *                }
  */
-                addLocalPGPService(cryptoCallSession.serverPort, cryptoCallSession.publicKeyType, cryptoCallSession.publicKeyHex, cryptoCallSession.X509CertFile,
-                        cryptoCallSession.X509PrivKeyFile);
+                addLocalPGPService(cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType, cryptoCallSession.peerPublicKeyHex, cryptoCallSession.myX509CertFile,
+                        cryptoCallSession.myX509PrivKeyFile);
             }
 
             // Initialization is done, now start pjsua
