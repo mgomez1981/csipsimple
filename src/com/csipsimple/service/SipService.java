@@ -1273,9 +1273,13 @@ public class SipService extends Service {
 		
 		// put session into PjSipService
 		Log.d(THIS_FILE, "Put cryptoCallSession into pjService...");
-		Log.d(THIS_FILE, cryptoCallSession.toString());
-		pjService.setCryptoCallSession(cryptoCallSession);
 		
+		if (cryptoCallSession != null) {
+    		Log.d(THIS_FILE, cryptoCallSession.toString());
+    		pjService.setCryptoCallSession(cryptoCallSession);
+		} else {
+		    Log.d(THIS_FILE, "cryptoCallSession is null! -> not set!");
+		}
 
         presenceMgr.startMonitoring(this);
 		if(pjService.sipStart()) {
