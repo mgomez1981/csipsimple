@@ -100,9 +100,6 @@ public class SipService extends Service {
 	// For video testing -- TODO : remove
 	private static SipService singleton = null;
 	
-	// CryptoCall session object, is later given to PjSipService
-	private CryptoCallSession cryptoCallSession;
-	
 
 	// Implement public interface for the service
 	private final ISipService.Stub binder = new ISipService.Stub() {
@@ -1132,9 +1129,6 @@ public class SipService extends Service {
                 ComponentName outActivity = (ComponentName) p;
                 registerForOutgoing(outActivity);
             }
-            
-    		// also get CryptoCall session object for later use
-    		cryptoCallSession = intent.getParcelableExtra(SipManager.EXTRA_CRYPTOCALL_SESSION);
 		}
 		
         // Check connectivity, else just finish itself
@@ -1270,17 +1264,7 @@ public class SipService extends Service {
 			}
 		}
 		Log.d(THIS_FILE, "Ask pjservice to start itself");
-		
-		// put session into PjSipService
-		Log.d(THIS_FILE, "Put cryptoCallSession into pjService...");
-		
-		if (cryptoCallSession != null) {
-    		Log.d(THIS_FILE, cryptoCallSession.toString());
-    		pjService.setCryptoCallSession(cryptoCallSession);
-		} else {
-		    Log.d(THIS_FILE, "cryptoCallSession is null! -> not set!");
-		}
-
+	
         presenceMgr.startMonitoring(this);
 		if(pjService.sipStart()) {
 		    // This should be done after in acquire resource
