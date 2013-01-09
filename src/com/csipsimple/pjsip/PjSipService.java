@@ -32,6 +32,7 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.SyncStateContract.Constants;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -574,9 +575,13 @@ public class PjSipService {
                 CryptoCallSession cryptoCallSession =
                         CurrentSessionSingelton.getInstance().getCryptoCallSession();
                 if (cryptoCallSession != null) {
+                    Log.d(THIS_FILE, "CryptoCallSession is existing in singelton!:");
+                    Log.d(THIS_FILE, cryptoCallSession.toString());
                     addLocalPGPService(cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType,
                             cryptoCallSession.peerPublicKeyHex, cryptoCallSession.myX509CertFile,
                             cryptoCallSession.myX509PrivKeyFile);
+                } else {
+                    Log.d(THIS_FILE, "CryptoCallSession is null!");
                 }
             }
 
