@@ -1132,9 +1132,6 @@ public class SipService extends Service {
                 ComponentName outActivity = (ComponentName) p;
                 registerForOutgoing(outActivity);
             }
-            
-    		// also get CryptoCall session object for later use
-    		cryptoCallSession = intent.getParcelableExtra(SipManager.EXTRA_CRYPTOCALL_SESSION);
 		}
 		
         // Check connectivity, else just finish itself
@@ -1270,11 +1267,6 @@ public class SipService extends Service {
 			}
 		}
 		Log.d(THIS_FILE, "Ask pjservice to start itself");
-		
-		// put session into PjSipService
-		Log.d(THIS_FILE, "Put cryptoCallSession into pjService...");
-		Log.d(THIS_FILE, cryptoCallSession.toString());
-		pjService.setCryptoCallSession(cryptoCallSession);
 		
 
         presenceMgr.startMonitoring(this);
