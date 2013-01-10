@@ -78,7 +78,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UAStateReceiver extends Callback {
-	private final static String THIS_FILE = "SIP UA Receiver";
+	private final static String THIS_FILE = "pjsip/UAStateReceiver";
 	private final static String ACTION_PHONE_STATE_CHANGED = "android.intent.action.PHONE_STATE";
 	
 
