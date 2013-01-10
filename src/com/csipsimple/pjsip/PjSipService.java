@@ -393,8 +393,8 @@ public class PjSipService {
                 // it will use less CPU since now thread are launched by
                 // alarmManager
                 cfg.setThread_cnt(prefsWrapper.getPreferenceIntegerValue(SipConfigManager.THREAD_COUNT));
-                cfg.setUse_srtp(getUseSrtp());
-                cfg.setSrtp_secure_signaling(0);
+                cfg.setUse_srtp(pjmedia_srtp_use.swigToEnum(1));
+                cfg.setSrtp_secure_signaling(1);
                 cfg.setNat_type_in_sdp(0);
 
                 pjsip_timer_setting timerSetting = cfg.getTimer_setting();
@@ -574,17 +574,16 @@ public class PjSipService {
  */
 
                 // PGP
-								/*
-                 *cryptoCallSession = new CryptoCallSession();
-                 *cryptoCallSession.peerEmail = "bla";
-                 *cryptoCallSession.peerPublicKeyType = CryptoCallSession.KEY_TYPE_RSA;
-                 *cryptoCallSession.myX509CertFile = "/mnt/sdcard/cryptocall-cert.pem";
-                 *cryptoCallSession.myX509PrivKeyFile = "/mnt/sdcard/cryptocall-priv-key.pem";
-                 *cryptoCallSession.peerPublicKeyHex = "dac08a95623355bdd0875262a4014040fcaa8f9386fcd8f50cc768eabcff29f80b5436700f45d938b64ad05d0b3e69573c74b6db8df2353572f18cd6305c7f310c68fe31ff03120dc886ba4a809ee1b45751b16db0e9468658afe6252b5d44c6fa6e8952452c3c80217d872c04c6abae85a845f396db229c012a6a6839014bc5718b3bda65ef849ecfded7fe2fc1e341327469c9769d1ffab7afa1f92d89eab4497bf99e8ea616332a10a0e295330ee0ae2b9588bf9b60be6e810c6d2d6d974da6fbda5c14bfa818fa00ea6e3e31afac4b1c7b63dd7f9ddb3e2033043b9cc6e0e011133109e0d02da6199c5865fe45a42cdcda1e293c8c251102bc5325fd4f63";
-                 *cryptoCallSession.serverPort = 6666;
-								 */
-                CryptoCallSession cryptoCallSession =
-                        CurrentSessionSingelton.getInstance().getCryptoCallSession();
+                //uncomment if you don't use any UI
+                
+                CryptoCallSession cryptoCallSession = new CryptoCallSession();
+                cryptoCallSession.peerEmail = "bla";
+                cryptoCallSession.peerPublicKeyType = CryptoCallSession.KEY_TYPE_RSA;
+                cryptoCallSession.myX509CertFile = "/mnt/sdcard/cryptocall-cert.pem";
+                cryptoCallSession.myX509PrivKeyFile = "/mnt/sdcard/cryptocall-priv-key.pem";
+                cryptoCallSession.peerPublicKeyHex = "dac08a95623355bdd0875262a4014040fcaa8f9386fcd8f50cc768eabcff29f80b5436700f45d938b64ad05d0b3e69573c74b6db8df2353572f18cd6305c7f310c68fe31ff03120dc886ba4a809ee1b45751b16db0e9468658afe6252b5d44c6fa6e8952452c3c80217d872c04c6abae85a845f396db229c012a6a6839014bc5718b3bda65ef849ecfded7fe2fc1e341327469c9769d1ffab7afa1f92d89eab4497bf99e8ea616332a10a0e295330ee0ae2b9588bf9b60be6e810c6d2d6d974da6fbda5c14bfa818fa00ea6e3e31afac4b1c7b63dd7f9ddb3e2033043b9cc6e0e011133109e0d02da6199c5865fe45a42cdcda1e293c8c251102bc5325fd4f63";
+                cryptoCallSession.serverPort = 6666;
+                //CryptoCallSession cryptoCallSession = CurrentSessionSingelton.getInstance().getCryptoCallSession();
                 if (cryptoCallSession != null) {
                     Log.d(THIS_FILE, "CryptoCallSession is existing in singelton!:");
                     Log.d(THIS_FILE, cryptoCallSession.toString());
@@ -823,8 +822,7 @@ public class PjSipService {
         tlsSetting.setTrusted_public_key_type(keyType);
         Log.d(THIS_FILE, new Integer(tlsSetting.getTrusted_public_key_type()).toString());
 
-        tlsSetting.setVerify_client(1);
-        //tlsSetting.setRequire_client_cert(1);
+        tlsSetting.setVerify_client(1); //tlsSetting.setRequire_client_cert(1);
 
         tlsSetting.setMethod(1); // 1 for TLSv1
         //tlsSetting.setVerify_server(1);
