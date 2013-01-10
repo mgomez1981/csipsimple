@@ -100,7 +100,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PjSipService {
-    private static final String THIS_FILE = "PjService";
+    private static final String THIS_FILE = "PjSipService";
     private static int DTMF_TONE_PAUSE_LENGTH = 300;
     private static int DTMF_TONE_WAIT_LENGTH = 2000;
 
@@ -276,21 +276,13 @@ public class PjSipService {
                 if(tsx_to > 0) {
                     cssCfg.setTsx_td_timeout(tsx_to);
                 }
-                
 
-                // -- USE_ZRTP 1 is no_zrtp, 2 is create_zrtp
-                File zrtpFolder = PreferencesWrapper.getZrtpFolder(service);
-                if (zrtpFolder != null) {
-                    cssCfg.setUse_zrtp((prefsWrapper
-                            .getPreferenceIntegerValue(SipConfigManager.USE_ZRTP) > 1) ? pjsua.PJ_TRUE
-                            : pjsua.PJ_FALSE);
-                    cssCfg.setStorage_folder(pjsua.pj_str_copy(zrtpFolder.getAbsolutePath()));
-                } else {
-                    cssCfg.setUse_zrtp(pjsua.PJ_FALSE);
-                    cssCfg.setStorage_folder(pjsua.pj_str_copy(""));
-                }
+                cssCfg.setUse_zrtp(pjsua.PJ_FALSE);
+                cssCfg.setStorage_folder(pjsua.pj_str_copy(""));
 
-                Map<String, DynCodecInfos> availableCodecs = ExtraPlugins.getDynCodecPlugins(service, SipManager.ACTION_GET_EXTRA_CODECS);
+                Map<String, DynCodecInfos> availableCodecs = 
+                        ExtraPlugins.getDynCodecPlugins(service, SipManager.ACTION_GET_EXTRA_CODECS);
+
                 dynamic_factory[] cssCodecs = cssCfg.getExtra_aud_codecs();
                 int i = 0;
                 for (Entry<String, DynCodecInfos> availableCodec : availableCodecs.entrySet()) {
@@ -594,7 +586,7 @@ public class PjSipService {
                             cryptoCallSession.myX509PrivKeyFile);
                 } else {
                     Log.d(THIS_FILE, "CryptoCallSession is null!");
-                }          
+                }
 
                 if (localTlsAccPjId == null) {
                     cleanPjsua();
