@@ -32,6 +32,7 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.SyncStateContract.Constants;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -65,6 +66,7 @@ import com.csipsimple.utils.video.VideoUtilsWrapper.VideoCaptureDeviceInfo;
 import com.csipsimple.wizards.WizardUtils;
 
 import org.cryptocall.CryptoCallSession;
+import org.cryptocall.CurrentSessionSingelton;
 import org.pjsip.pjsua.csipsimple_config;
 import org.pjsip.pjsua.dynamic_factory;
 import org.pjsip.pjsua.pj_pool_t;
@@ -126,18 +128,6 @@ public class PjSipService {
     private SparseArray<TimerTask> dtmfTasks = new SparseArray<TimerTask>(5);
     private SparseArray<PjStreamDialtoneGenerator> dtmfDialtoneGenerators =
             new SparseArray<PjStreamDialtoneGenerator>(5);
-    
-    // CryptoCall session object, including port, pubKey, X509,...
-    private CryptoCallSession cryptoCallSession;
-    
-
-    public CryptoCallSession getCryptoCallSession() {
-        return cryptoCallSession;
-    }
-
-    public void setCryptoCallSession(CryptoCallSession cryptoCallSession) {
-        this.cryptoCallSession = cryptoCallSession;
-    }
 
 
     // -------
@@ -584,13 +574,26 @@ public class PjSipService {
  */
 
                 // PGP
-                cryptoCallSession = new CryptoCallSession();
-                cryptoCallSession.peerEmail = "bla";
-                cryptoCallSession.peerPublicKeyType = CryptoCallSession.KEY_TYPE_RSA;
-                cryptoCallSession.myX509CertFile = "/mnt/sdcard/cryptocall-cert.pem";
-                cryptoCallSession.myX509PrivKeyFile = "/mnt/sdcard/cryptocall-priv-key.pem";
-                cryptoCallSession.peerPublicKeyHex = "dac08a95623355bdd0875262a4014040fcaa8f9386fcd8f50cc768eabcff29f80b5436700f45d938b64ad05d0b3e69573c74b6db8df2353572f18cd6305c7f310c68fe31ff03120dc886ba4a809ee1b45751b16db0e9468658afe6252b5d44c6fa6e8952452c3c80217d872c04c6abae85a845f396db229c012a6a6839014bc5718b3bda65ef849ecfded7fe2fc1e341327469c9769d1ffab7afa1f92d89eab4497bf99e8ea616332a10a0e295330ee0ae2b9588bf9b60be6e810c6d2d6d974da6fbda5c14bfa818fa00ea6e3e31afac4b1c7b63dd7f9ddb3e2033043b9cc6e0e011133109e0d02da6199c5865fe45a42cdcda1e293c8c251102bc5325fd4f63";
-                cryptoCallSession.serverPort = 6666;
+								/*
+                 *cryptoCallSession = new CryptoCallSession();
+                 *cryptoCallSession.peerEmail = "bla";
+                 *cryptoCallSession.peerPublicKeyType = CryptoCallSession.KEY_TYPE_RSA;
+                 *cryptoCallSession.myX509CertFile = "/mnt/sdcard/cryptocall-cert.pem";
+                 *cryptoCallSession.myX509PrivKeyFile = "/mnt/sdcard/cryptocall-priv-key.pem";
+                 *cryptoCallSession.peerPublicKeyHex = "dac08a95623355bdd0875262a4014040fcaa8f9386fcd8f50cc768eabcff29f80b5436700f45d938b64ad05d0b3e69573c74b6db8df2353572f18cd6305c7f310c68fe31ff03120dc886ba4a809ee1b45751b16db0e9468658afe6252b5d44c6fa6e8952452c3c80217d872c04c6abae85a845f396db229c012a6a6839014bc5718b3bda65ef849ecfded7fe2fc1e341327469c9769d1ffab7afa1f92d89eab4497bf99e8ea616332a10a0e295330ee0ae2b9588bf9b60be6e810c6d2d6d974da6fbda5c14bfa818fa00ea6e3e31afac4b1c7b63dd7f9ddb3e2033043b9cc6e0e011133109e0d02da6199c5865fe45a42cdcda1e293c8c251102bc5325fd4f63";
+                 *cryptoCallSession.serverPort = 6666;
+								 */
+                CryptoCallSession cryptoCallSession =
+                        CurrentSessionSingelton.getInstance().getCryptoCallSession();
+                if (cryptoCallSession != null) {
+                    Log.d(THIS_FILE, "CryptoCallSession is existing in singelton!:");
+                    Log.d(THIS_FILE, cryptoCallSession.toString());
+                    addLocalPGPService(cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType,
+                            cryptoCallSession.peerPublicKeyHex, cryptoCallSession.myX509CertFile,
+                            cryptoCallSession.myX509PrivKeyFile);
+                } else {
+                    Log.d(THIS_FILE, "CryptoCallSession is null!");
+                }
 
                 localTlsAccPjId = createLocalPGPTransportAndAccount(
                         pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
@@ -601,7 +604,6 @@ public class PjSipService {
                 if (localTlsAccPjId == null) {
                     cleanPjsua();
                     return false;
-                }
             }
 
             // Initialization is done, now start pjsua
