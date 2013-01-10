@@ -111,7 +111,7 @@ public class PjSipService {
     private boolean hasSipStack = false;
     private boolean sipStackIsCorrupted = false;
     private Integer localUdpAccPjId, localUdp6AccPjId, localTcpAccPjId, localTcp6AccPjId,
-        localTlsAccPjId, localTls6AccPjId, localPgpAccPjId;
+        localTlsAccPjId, localTls6AccPjId;
     public PreferencesProviderWrapper prefsWrapper;
     //private PjStreamDialtoneGenerator dialtoneGenerator;
 
@@ -562,8 +562,8 @@ public class PjSipService {
                     }
                 }
 
+                // TLS
 /*
- *                // TLS
  *                if (prefsWrapper.isTLSEnabled()) {
  *                    int tlsPort = prefsWrapper.getTLSTransportPort();
  *                    localTlsAccPjId = createLocalTransportAndAccount(
@@ -582,8 +582,26 @@ public class PjSipService {
  *                    }
  *                }
  */
-                addLocalPGPService(cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType, cryptoCallSession.peerPublicKeyHex, cryptoCallSession.myX509CertFile,
+
+                // PGP
+                cryptoCallSession = new CryptoCallSession();
+                cryptoCallSession.peerEmail = "bla";
+                cryptoCallSession.peerPublicKeyType = CryptoCallSession.KEY_TYPE_RSA;
+                cryptoCallSession.myX509CertFile = "/mnt/sdcard/cryptocall-cert.pem";
+                cryptoCallSession.myX509PrivKeyFile = "/mnt/sdcard/cryptocall-priv-key.pem";
+                cryptoCallSession.peerPublicKeyHex = "dac08a95623355bdd0875262a4014040fcaa8f9386fcd8f50cc768eabcff29f80b5436700f45d938b64ad05d0b3e69573c74b6db8df2353572f18cd6305c7f310c68fe31ff03120dc886ba4a809ee1b45751b16db0e9468658afe6252b5d44c6fa6e8952452c3c80217d872c04c6abae85a845f396db229c012a6a6839014bc5718b3bda65ef849ecfded7fe2fc1e341327469c9769d1ffab7afa1f92d89eab4497bf99e8ea616332a10a0e295330ee0ae2b9588bf9b60be6e810c6d2d6d974da6fbda5c14bfa818fa00ea6e3e31afac4b1c7b63dd7f9ddb3e2033043b9cc6e0e011133109e0d02da6199c5865fe45a42cdcda1e293c8c251102bc5325fd4f63";
+                cryptoCallSession.serverPort = 6666;
+
+                localTlsAccPjId = createLocalPGPTransportAndAccount(
+                        pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
+                        cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType,
+                        cryptoCallSession.peerPublicKeyHex, cryptoCallSession.myX509CertFile,
                         cryptoCallSession.myX509PrivKeyFile);
+
+                if (localTlsAccPjId == null) {
+                    cleanPjsua();
+                    return false;
+                }
             }
 
             // Initialization is done, now start pjsua
@@ -608,23 +626,6 @@ public class PjSipService {
         }
 
         return false;
-    }
-
-    // Add transports
-    public boolean addLocalPGPService(int tlsPort, int keyType, String publicKeyHex, String x509CertFile, String x509PrivKeyFile)
-            throws SameThreadException {
-        Log.d(THIS_FILE, "------>addLocalPGPService()");
-
-        localPgpAccPjId = createLocalPGPTransportAndAccount(
-                pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
-                tlsPort, keyType, publicKeyHex, x509CertFile, x509PrivKeyFile);
-
-        if (localPgpAccPjId == null) {
-            cleanPjsua();
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -823,10 +824,10 @@ public class PjSipService {
         Log.d(THIS_FILE, new Integer(tlsSetting.getTrusted_public_key_type()).toString());
 
         tlsSetting.setVerify_client(1);
-        tlsSetting.setRequire_client_cert(1);
+        //tlsSetting.setRequire_client_cert(1);
 
         tlsSetting.setMethod(1); // 1 for TLSv1
-        tlsSetting.setVerify_server(1);
+        //tlsSetting.setVerify_server(1);
 
         cfg.setTls_setting(tlsSetting);
 
@@ -850,9 +851,11 @@ public class PjSipService {
             return null;
         }
 
-        return createLocalAccount(tId[0]);
-    }
+        Log.d(THIS_FILE,new Integer(tId[0]).toString());
 
+        Integer transportId = tId[0];
+        return createLocalAccount(transportId);
+    }
     public boolean addAccount(SipProfile profile) throws SameThreadException {
         int status = pjsuaConstants.PJ_FALSE;
         if (!created) {
