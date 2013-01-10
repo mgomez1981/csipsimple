@@ -100,9 +100,6 @@ public class SipService extends Service {
 	// For video testing -- TODO : remove
 	private static SipService singleton = null;
 	
-	// CryptoCall session object, is later given to PjSipService
-	private CryptoCallSession cryptoCallSession;
-	
 
 	// Implement public interface for the service
 	private final ISipService.Stub binder = new ISipService.Stub() {
@@ -1267,8 +1264,6 @@ public class SipService extends Service {
 			}
 		}
 		Log.d(THIS_FILE, "Ask pjservice to start itself");
-		
-
         presenceMgr.startMonitoring(this);
 		if(pjService.sipStart()) {
 		    // This should be done after in acquire resource
