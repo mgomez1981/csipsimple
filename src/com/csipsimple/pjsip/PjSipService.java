@@ -504,45 +504,54 @@ public class PjSipService {
                 // We need a local account for each transport 
                 // to not have the
                 // application lost when direct call to the IP
-                
-                // UDP
-                if (prefsWrapper.isUDPEnabled()) {
-                    int udpPort = prefsWrapper.getUDPTransportPort();
-                    localUdpAccPjId = createLocalTransportAndAccount(
-                            pjsip_transport_type_e.PJSIP_TRANSPORT_UDP,
-                            udpPort);
-                    if (localUdpAccPjId == null) {
-                        cleanPjsua();
-                        return false;
-                    }
-                    // UDP v6
-                    if (prefsWrapper.useIPv6()) {
-                        localUdp6AccPjId = createLocalTransportAndAccount(
-                                pjsip_transport_type_e.PJSIP_TRANSPORT_UDP6,
-                                udpPort == 0 ? udpPort : udpPort + 10);
-                    }
-                }
-                
-                // TCP
-                if (prefsWrapper.isTCPEnabled()) {
-                    int tcpPort = prefsWrapper.getTCPTransportPort();
-                    localTcpAccPjId = createLocalTransportAndAccount(
-                            pjsip_transport_type_e.PJSIP_TRANSPORT_TCP,
-                            tcpPort);
-                    if (localTcpAccPjId == null) {
-                        cleanPjsua();
-                        return false;
-                    }
 
-                    // TCP v6
-                    if (prefsWrapper.useIPv6()) {
-                        localTcp6AccPjId = createLocalTransportAndAccount(
-                                pjsip_transport_type_e.PJSIP_TRANSPORT_TCP6,
-                                tcpPort == 0 ? tcpPort : tcpPort + 10);
-                    }
-                }
+
+                // UDP
+                // uncomment if you need unencrypted udp transports
+                /*
+                 *if (prefsWrapper.isUDPEnabled()) {
+                 *    int udpPort = prefsWrapper.getUDPTransportPort();
+                 *    localUdpAccPjId = createLocalTransportAndAccount(
+                 *            pjsip_transport_type_e.PJSIP_TRANSPORT_UDP,
+                 *            udpPort);
+                 *    if (localUdpAccPjId == null) {
+                 *        cleanPjsua();
+                 *        return false;
+                 *    }
+                 *    // UDP v6
+                 *    if (prefsWrapper.useIPv6()) {
+                 *        localUdp6AccPjId = createLocalTransportAndAccount(
+                 *                pjsip_transport_type_e.PJSIP_TRANSPORT_UDP6,
+                 *                udpPort == 0 ? udpPort : udpPort + 10);
+                 *    }
+                 *}
+                 */
+
+                // TCP
+                // uncomment if you need unencrypted tcp transports
+/*
+ *                if (prefsWrapper.isTCPEnabled()) {
+ *                    int tcpPort = prefsWrapper.getTCPTransportPort();
+ *                    localTcpAccPjId = createLocalTransportAndAccount(
+ *                            pjsip_transport_type_e.PJSIP_TRANSPORT_TCP,
+ *                            tcpPort);
+ *                    if (localTcpAccPjId == null) {
+ *                        cleanPjsua();
+ *                        return false;
+ *                    }
+ *
+ *                    // TCP v6
+ *                    if (prefsWrapper.useIPv6()) {
+ *                        localTcp6AccPjId = createLocalTransportAndAccount(
+ *                                pjsip_transport_type_e.PJSIP_TRANSPORT_TCP6,
+ *                                tcpPort == 0 ? tcpPort : tcpPort + 10);
+ *                    }
+ *                }
+ */
 
                 // TLS
+                // x509 based tls authentication
+                // uncomment if you want to use it (pjsip supports only as SINGLE tls transport at the same time)
 /*
  *                if (prefsWrapper.isTLSEnabled()) {
  *                    int tlsPort = prefsWrapper.getTLSTransportPort();
