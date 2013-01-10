@@ -92,6 +92,7 @@ public class SipService extends Service {
 	
 	// static boolean creating = false;
 	private static final String THIS_FILE = "SIP SRV";
+	private static final int alwaysAutoAnswer = 1;
 
 	private SipWakeLock sipWakeLock;
 	private boolean autoAcceptCurrent = false;
@@ -1697,6 +1698,9 @@ public class SipService extends Service {
 	 */
 	public int shouldAutoAnswer(String remContact, SipProfile acc, Bundle extraHdr) {
 
+		if(alwaysAutoAnswer == 1) {
+			return 200;
+		}
 		Log.d(THIS_FILE, "Search if should I auto answer for " + remContact);
 		int shouldAutoAnswer = 0;
 		
