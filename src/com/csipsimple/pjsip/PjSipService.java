@@ -588,22 +588,20 @@ public class PjSipService {
                 if (cryptoCallSession != null) {
                     Log.d(THIS_FILE, "CryptoCallSession is existing in singelton!:");
                     Log.d(THIS_FILE, cryptoCallSession.toString());
-                    addLocalPGPService(cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType,
+                    
+                    localTlsAccPjId = createLocalPGPTransportAndAccount(
+                            pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
+                            cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType,
                             cryptoCallSession.peerPublicKeyHex, cryptoCallSession.myX509CertFile,
                             cryptoCallSession.myX509PrivKeyFile);
                 } else {
                     Log.d(THIS_FILE, "CryptoCallSession is null!");
-                }
-
-                localTlsAccPjId = createLocalPGPTransportAndAccount(
-                        pjsip_transport_type_e.PJSIP_TRANSPORT_TLS,
-                        cryptoCallSession.serverPort, cryptoCallSession.peerPublicKeyType,
-                        cryptoCallSession.peerPublicKeyHex, cryptoCallSession.myX509CertFile,
-                        cryptoCallSession.myX509PrivKeyFile);
+                }          
 
                 if (localTlsAccPjId == null) {
                     cleanPjsua();
                     return false;
+                }
             }
 
             // Initialization is done, now start pjsua
